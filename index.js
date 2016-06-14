@@ -224,7 +224,7 @@ SonosAccessory.prototype.getOn = function(callback) {
   }
 
   this.device.getCurrentState(function(err, state) {
-    
+
     if (err) {
       callback(err);
     }
@@ -232,7 +232,7 @@ SonosAccessory.prototype.getOn = function(callback) {
       var on = (state == "playing");
       callback(null, on);
     }
-    
+
   }.bind(this));
 }
 
@@ -244,7 +244,7 @@ SonosAccessory.prototype.setOn = function(on, callback) {
   }
 
   this.log("Setting power to " + on);
-  
+
   if (on) {
     this.device.play(function(err, success) {
       this.log("Playback attempt with success: " + success);
@@ -257,8 +257,8 @@ SonosAccessory.prototype.setOn = function(on, callback) {
     }.bind(this));
   }
   else {
-      this.device.stop(function(err, success) {
-          this.log("Stop attempt with success: " + success);
+      this.device.pause(function(err, success) {
+          this.log("Pause attempt with success: " + success);
           if (err) {
             callback(err);
           }
@@ -277,7 +277,7 @@ SonosAccessory.prototype.getVolume = function(callback) {
   }
 
   this.device.getVolume(function(err, volume) {
-    
+
     if (err) {
       callback(err);
     }
@@ -285,7 +285,7 @@ SonosAccessory.prototype.getVolume = function(callback) {
       this.log("Current volume: %s", volume);
       callback(null, Number(volume));
     }
-    
+
   }.bind(this));
 }
 
@@ -297,7 +297,7 @@ SonosAccessory.prototype.setVolume = function(volume, callback) {
   }
 
   this.log("Setting volume to %s", volume);
-  
+
   this.device.setVolume(volume + "", function(err, data) {
     this.log("Set volume response with data: " + data);
     if (err) {
@@ -328,6 +328,6 @@ function makeVolumeCharacteristic() {
     });
     this.value = this.getDefaultValue();
   };
-  
+
   inherits(VolumeCharacteristic, Characteristic);
 }
